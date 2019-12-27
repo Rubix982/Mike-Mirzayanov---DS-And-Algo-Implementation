@@ -19,6 +19,7 @@ void decreaseKey(int a[], int x, int k);        // Increase value of element x's
 void heapSort_Min(int a[], int n);              // Does heap sort
 
 void insert(int a[], int key, int n);           // Inserts element x into array a
+void deleteNode(int a[], int x, int n);                    // Delete node which contains the value 'x'
 
 int main (void) {
 
@@ -37,8 +38,8 @@ int main (void) {
     // * Sorts in place ( like insertion sort )
 
     // ? Uncomment to heapsort accordingly
-    // heapSort_Max(a, n - 1);
-    // heapSort_Min(a, n - 1);
+    // heapSort_Max(a, n);
+    // heapSort_Min(a, n);
 }
 
 void buildMaxHeap(int a[], int n)
@@ -64,19 +65,22 @@ void maxHeapify(int a[], int i, int n)
     }
 }
 
-int maximum(int a[]) {
+int maximum(int a[]) 
+{
     return a[1];
 }   
 
-int extractMax(int a[], int n) {
+int extractMax(int a[], int n) 
+{
     int maxx = a[1];
     a[1] = a[n];
 
     maxHeapify(a, 1, n - 1);
-    return maxx;
+        return maxx;
 }   
 
-void increaseKey(int a[], int x, int k) {
+void increaseKey(int a[], int x, int k) 
+{
     a[x] = k;
 
     while ( (x > 1 & a[ x / 2]) < a[x])
@@ -97,7 +101,8 @@ void heapSort_Max(int a[], int n)
     }
 }
 
-void buildMinHeap(int a[], int n) {
+void buildMinHeap(int a[], int n) 
+{
     for (int i = floor(n / 2); i >= 1; --i)
     {
         minHeapify(a, i, n);
@@ -153,4 +158,23 @@ void heapSort_Min(int a[], int n)
         swap(a[1], a[i]);
         minHeapify(a, 1, i - 1);
     }
-}   
+}
+
+// ! Complexity O(lg n)
+void insert(int a[], int key, int n)
+{
+    a[n + 1] = -INFINITY;
+    increaseKey(a, n + 1, key);
+}
+
+void deleteNode(int a[], int x, int n)
+{
+    // search for element
+    int i = 0;
+    for ( ; i < n ; ++i )
+        if ( x == a[i] )
+         break;
+
+    swap(a[i], a[n - 1]);
+    a[n - 1] = -INFINITY;
+}

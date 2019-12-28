@@ -62,6 +62,8 @@
 #endif
 
 // C++
+#include <chrono>
+#include <random>
 #include <algorithm>
 #include <bitset>
 #include <complex>

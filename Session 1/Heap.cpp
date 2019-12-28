@@ -27,7 +27,10 @@ int main (void) {
     cin >> n;
     int a[n];
 
-    for ( int i = 0; i < n ; ++i ) cin >> a[i];
+    srand(time(0));
+    for ( int i = 0; i < n ; ++i ) a[i] = 1 + ( rand() % 20 );
+    for (int i = 0; i < n; ++i) cout << a[i] << " ";
+    std::cout << "\n";
 
     // * simple bound
     // * O(n) calls to maxHeapify()
@@ -38,13 +41,19 @@ int main (void) {
     // * Sorts in place ( like insertion sort )
 
     // ? Uncomment to heapsort accordingly
-    // heapSort_Max(a, n);
+    // Bugs here, sadly, fix please
+    heapSort_Min(a, n);
+    for (int i = 0; i < n; ++i) cout << a[i] << " ";
+    sort(a, a + n);
+    std::cout << "\n";
+    for (int i = 0; i < n; ++i) cout << a[i] << " ";
+    std::cout << "\n";
     // heapSort_Min(a, n);
 }
 
 void buildMaxHeap(int a[], int n)
 {
-    for ( int i = floor ( n / 2) ; i >= 1 ; --i )
+    for ( int i = floor ( n / 2 ) ; i >= 1 ; --i )
     {
         maxHeapify(a, i, n);
     }
@@ -55,8 +64,8 @@ void maxHeapify(int a[], int i, int n)
 {
     int l = 2 * i, r = 2 * i + 1, largest = i;
 
-    if ( l <= n and a[l] > a[largest] ) largest = l;
-    if ( r <= n and a[r] > a[largest] ) largest = r;
+    if ( l < n and a[l] > a[largest] ) largest = l;
+    if ( r < n and a[r] > a[largest] ) largest = r;
 
     if ( largest != i )
     {
@@ -94,7 +103,7 @@ void heapSort_Max(int a[], int n)
 {
     buildMaxHeap(a, n);
 
-    for ( int i = n ; i >= 2 ; --i )
+    for ( int i = n - 1 ; i >= 2 ; --i )
     {
         swap(a[1], a[i]);
         maxHeapify(a, 1, i - 1);
@@ -113,9 +122,9 @@ void minHeapify(int a[], int i, int n)
 {
     int l = 2 * i, r = 2 * i + 1, smallest = i;
 
-    if (l <= n and a[l] < a[smallest])
+    if (l < n and a[l] < a[smallest])
         smallest = l;
-    if (r <= n and a[r] < a[smallest])
+    if (r < n and a[r] < a[smallest])
         smallest = r;
 
     if (smallest != i)
@@ -153,9 +162,9 @@ void heapSort_Min(int a[], int n)
 {
     buildMinHeap(a, n);
 
-    for (int i = n; i >= 2; --i)
+    for (int i = n; i >= 2 ; --i)
     {
-        swap(a[1], a[i]);
+        swap(a[1], a[i - 1]);
         minHeapify(a, 1, i - 1);
     }
 }
@@ -163,7 +172,7 @@ void heapSort_Min(int a[], int n)
 // ! Complexity O(lg n)
 void insert(int a[], int key, int n)
 {
-    a[n + 1] = -INFINITY;
+    a[n + 1] = std::numeric_limits<int>::min();
     increaseKey(a, n + 1, key);
 }
 
@@ -176,5 +185,5 @@ void deleteNode(int a[], int x, int n)
          break;
 
     swap(a[i], a[n - 1]);
-    a[n - 1] = -INFINITY;
+    a[n - 1] = std::numeric_limits<int>::min();
 }

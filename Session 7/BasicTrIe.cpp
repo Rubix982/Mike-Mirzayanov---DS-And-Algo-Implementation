@@ -2,6 +2,8 @@
 #include <iostream>
 using namespace std;
 
+// current implementation works on upper case i.e. why array of 26 is taken
+
 class trieNode {
    private:
     trieNode *data[26];
